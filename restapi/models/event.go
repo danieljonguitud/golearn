@@ -3,12 +3,12 @@ package models
 import "time"
 
 type Event struct {
-	Id int
-	Name string
-	Descripition string
-	Location string
-	DateTime time.Time
-	UserId int
+	Id int `json:"id"`
+	Name string `json:"name"`
+	Description string `json:"description"`
+	Location string `json:"location"`
+	DateTime time.Time `json:"dateTime"`
+	UserId int `json:"userId"`
 }
 
 var events = []Event{}
