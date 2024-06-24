@@ -2,7 +2,6 @@ package main
 
 import (
 	"net/http"
-
 	"danieljonguitud.com/restapi/models"
 	"github.com/gin-gonic/gin"
 )
