@@ -1,8 +1,10 @@
 package routes
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
+
 	"danieljonguitud.com/restapi/models"
 	"github.com/gin-gonic/gin"
 )
@@ -23,7 +25,7 @@ func getEvent(context *gin.Context) {
 		return
 	}
 
-	event, err := models.GetEvent(eventId)
+	event, err := models.GetEventById(eventId)
 
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not query DB"})
@@ -52,4 +54,40 @@ func createEvent(context *gin.Context) {
 	}
 
 	context.JSON(http.StatusCreated, event)
+}
+
+func updateEvent(context *gin.Context) {
+	eventId, err := strconv.ParseInt(context.Param("id"), 10, 64)
+
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"message": "Could not parse request"})
+		return
+	}
+
+	_, err = models.GetEventById(eventId)
+
+	if err != nil {
+		fmt.Println(err)
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not query DB"})
+		return
+	}
+
+	var updatedEvent *models.Event
+	err = context.ShouldBind(&updatedEvent)
+
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"message": "Could not parse request"})
+		return
+	}
+
+	updatedEvent.Id = eventId
+	err = updatedEvent.Update()
+
+	if err != nil {
+		fmt.Println(err)
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not query DB"})
+		return
+	}
+
+	context.JSON(http.StatusOK, gin.H{"message": "Event updated successfully"})
 }
