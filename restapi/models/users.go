@@ -1,6 +1,7 @@
 package models
 
 import (
+	"errors"
 	"fmt"
 
 	"danieljonguitud.com/restapi/db"
@@ -47,4 +48,29 @@ func (user *User) Save() error {
 	user.Id = id
 	
 	return err
+}
+
+func (user User) ValidateCredentials() error {
+	query := `
+	SELECT password
+	FROM users
+	WHERE email = ?
+	`
+
+	row := db.DB.QueryRow(query, user.Email)
+
+	var retrievedPassword string
+	err := row.Scan(&retrievedPassword)
+
+	if err != nil {
+		return errors.New("Invalid Credentials")
+	}
+
+	isPasswordValid := utils.ChackPasswordHash(user.Password, retrievedPassword) 
+
+	if !isPasswordValid{
+		return errors.New("Invalid Credentials")
+	}
+
+	return nil
 }
