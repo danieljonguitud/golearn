@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"danieljonguitud.com/restapi/db"
+	"danieljonguitud.com/restapi/utils"
 )
 
 type User struct {
@@ -27,7 +28,14 @@ func (user *User) Save() error {
 
 	defer stmt.Close()
 
-	result, err := stmt.Exec(user.Email, user.Password)
+	hashedPassword, err := utils.HashPassword(user.Password)
+
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
+	result, err := stmt.Exec(user.Email, hashedPassword) 
 
 	if err != nil {
 		fmt.Println(err)
