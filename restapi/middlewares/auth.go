@@ -1,10 +1,9 @@
 package middlewares
 
 import (
-	"net/http"
-
 	"danieljonguitud.com/restapi/utils"
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 func Authenticate(context *gin.Context) {

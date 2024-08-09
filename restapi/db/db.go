@@ -39,7 +39,6 @@ func createTables() {
 		panic("Failed to create users table")
 	}
 
-
 	createEventsTable := `
 	CREATE TABLE IF NOT EXISTS events (
 		id INTEGER PRIMARY KEY AUTOINCREMENT,

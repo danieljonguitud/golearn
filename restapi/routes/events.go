@@ -12,7 +12,7 @@ import (
 func getEvents(context *gin.Context) {
 	events, err := models.GetAllEvents()
 	if err != nil {
-		context.JSON(http.StatusInternalServerError, gin.H{"message":"Could not return results, please try again"})
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not return results, please try again"})
 	}
 	context.JSON(http.StatusOK, events)
 }

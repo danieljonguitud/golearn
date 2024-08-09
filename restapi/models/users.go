@@ -1,16 +1,15 @@
 package models
 
 import (
-	"errors"
-	"fmt"
-
 	"danieljonguitud.com/restapi/db"
 	"danieljonguitud.com/restapi/utils"
+	"errors"
+	"fmt"
 )
 
 type User struct {
-	Id int64 `json:"id"`
-	Email string `json:"email" binding:"required"`
+	Id       int64  `json:"id"`
+	Email    string `json:"email" binding:"required"`
 	Password string `json:"password" binding:"required"`
 }
 
@@ -36,7 +35,7 @@ func (user *User) Save() error {
 		return err
 	}
 
-	result, err := stmt.Exec(user.Email, hashedPassword) 
+	result, err := stmt.Exec(user.Email, hashedPassword)
 
 	if err != nil {
 		fmt.Println(err)
@@ -46,7 +45,7 @@ func (user *User) Save() error {
 	id, err := result.LastInsertId()
 
 	user.Id = id
-	
+
 	return err
 }
 
@@ -66,9 +65,9 @@ func (user *User) ValidateCredentials() error {
 		return errors.New("Invalid Credentials")
 	}
 
-	isPasswordValid := utils.ChackPasswordHash(user.Password, retrievedPassword) 
+	isPasswordValid := utils.ChackPasswordHash(user.Password, retrievedPassword)
 
-	if !isPasswordValid{
+	if !isPasswordValid {
 		return errors.New("Invalid Credentials")
 	}
 

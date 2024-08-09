@@ -1,17 +1,17 @@
 package models
 
 import (
-	"time"
 	"danieljonguitud.com/restapi/db"
+	"time"
 )
 
 type Event struct {
-	Id int64 `json:"id"`
-	Name string `json:"name" binding:"required"`
-	Description string `json:"description" binding:"required"`
-	Location string `json:"location" binding:"required"`
-	DateTime time.Time `json:"dateTime" binding:"required"`
-	UserId int64 `json:"userId"`
+	Id          int64     `json:"id"`
+	Name        string    `json:"name" binding:"required"`
+	Description string    `json:"description" binding:"required"`
+	Location    string    `json:"location" binding:"required"`
+	DateTime    time.Time `json:"dateTime" binding:"required"`
+	UserId      int64     `json:"userId"`
 }
 
 var events = []Event{}
@@ -39,7 +39,7 @@ func (e *Event) Save() error {
 	id, err := result.LastInsertId()
 
 	e.Id = id
-	
+
 	return err
 }
 
@@ -101,7 +101,7 @@ func (e *Event) Update() error {
 	return nil
 }
 
-func (e *Event) Delete()  error {
+func (e *Event) Delete() error {
 	query := "DELETE FROM events WHERE id = ?"
 	stmt, err := db.DB.Prepare(query)
 
