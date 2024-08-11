@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	db.InitDB()
+	sdb.InitDB()
 	server := gin.Default()
 
 	routes.RegisterRoutes(server)
